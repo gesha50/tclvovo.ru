@@ -1,102 +1,80 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
-      <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="toggleLeftDrawer"
-        />
-
-        <q-toolbar-title>
-          Quasar App
-        </q-toolbar-title>
-
-        <div>Quasar v{{ $q.version }}</div>
-      </q-toolbar>
-    </q-header>
-
-    <q-drawer
-      v-model="leftDrawerOpen"
-      show-if-above
-      bordered
-    >
-      <q-list>
-        <q-item-label
-          header
-        >
-          Essential Links
-        </q-item-label>
-
-        <EssentialLink
-          v-for="link in essentialLinks"
-          :key="link.title"
-          v-bind="link"
-        />
-      </q-list>
-    </q-drawer>
-
+  <q-layout view="lHh Lpr lff" class="container">
+    <app-header @drawer="store.triggerDrawer()" />
+    <app-drawer />
     <q-page-container>
       <router-view />
     </q-page-container>
+    <app-footer />
   </q-layout>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import EssentialLink, { EssentialLinkProps } from 'components/EssentialLink.vue';
+import { onMounted, onUnmounted, ref } from 'vue';
+import AppHeader from '../components/AppHeader.vue';
+import AppDrawer from '../components/AppDrawer.vue';
+import AppFooter from '../components/AppFooter.vue';
+import { useMenuStore } from 'stores/menu-store';
 
-const essentialLinks: EssentialLinkProps[] = [
-  {
-    title: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev'
-  },
-  {
-    title: 'Github',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework'
-  },
-  {
-    title: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev'
-  },
-  {
-    title: 'Forum',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev'
-  },
-  {
-    title: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev'
-  },
-  {
-    title: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev'
-  },
-  {
-    title: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev'
-  }
-];
+const store = useMenuStore();
+const windowWidth = ref(window.innerWidth);
 
-const leftDrawerOpen = ref(false)
-
-function toggleLeftDrawer() {
-  leftDrawerOpen.value = !leftDrawerOpen.value
-}
+const handleResize = () => {
+  windowWidth.value = window.innerWidth;
+  store.screenWidthForDrawer(windowWidth.value);
+};
+onMounted(() => {
+  window.addEventListener('resize', handleResize);
+});
+onUnmounted(() => {
+  window.removeEventListener('resize', handleResize);
+});
 </script>
+
+<style lang="scss">
+@import 'src/css/app.scss';
+
+.q-page-container {
+  padding-right: 0 !important;
+}
+.container {
+  margin: 0 auto;
+  background: #fff;
+  @media (min-width: $breakpoint-xl-min) {
+    // for TV
+    max-width: 1500px;
+    padding-left: 150px;
+    padding-right: 150px;
+  }
+  @media (min-width: $breakpoint-lg-max) and (max-width: $breakpoint-xl-min) {
+    // for bid PC
+    max-width: 1200px;
+    padding-left: 120px;
+    padding-right: 120px;
+  }
+  @media (min-width: $breakpoint-md-max) and (max-width: $breakpoint-lg-max) {
+    // for standart PC
+    max-width: 90%;
+    padding-left: 100px;
+    padding-right: 100px;
+  }
+  @media (min-width: $breakpoint-sm-max) and (max-width: $breakpoint-md-max) {
+    // for tablet
+    max-width: 90%;
+    padding-left: 75px;
+    padding-right: 75px;
+  }
+  @media (min-width: $breakpoint-xs-max) and (max-width: $breakpoint-sm-max) {
+    // for tablet
+    max-width: 95%;
+    padding-left: 2%;
+    padding-right: 2%;
+  }
+  @media (max-width: $breakpoint-xs) {
+    // for mobile
+    max-width: 99%;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
+</style>

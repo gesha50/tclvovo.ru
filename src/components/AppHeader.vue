@@ -2,13 +2,12 @@
   <q-header
     reveal
     :reveal-offset="10"
-    elevated
     class="text-black"
     height-hint="98"
   >
     <q-toolbar>
       <q-btn
-        class="xs"
+        class="lt-md"
         @click="$emit('drawer')"
         color="white"
         text-color="primary"
@@ -20,7 +19,7 @@
       </q-avatar>
       <q-tabs
         v-model="tab"
-        class="text-grey-9 q-ml-sm xs-hide"
+        class="text-grey-9 q-ml-sm gt-sm"
         indicator-color="transparent"
         active-color="black"
         active-bg-color="white"
@@ -35,8 +34,17 @@
         />
       </q-tabs>
       <q-space></q-space>
-      {{locale}}
-<!--      <q-select filled v-model="locale" :options="localeOptions" emit-value />-->
+      <div class="q-mx-lg flex items-center">
+        <div
+          class="bg-white q-pa-sm"
+          style="border-radius: 50%"
+        >
+          <q-icon size="xs" name="phone" />
+        </div>
+        <div class="">+7 (919) 543-33-33</div>
+      </div>
+      <div class="q-mx-lg">ggggggg@gmail.com</div>
+      <q-btn class="glossy" rounded color="deep-orange" label="Glossy Rounded" />
     </q-toolbar>
   </q-header>
 </template>

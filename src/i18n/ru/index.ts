@@ -1,9 +1,8 @@
 export default {
   menu: {
     index: 'Главная',
-    services: 'Услуги',
-    portfolio: 'Портфолио',
+    area: 'Помещения',
     contact: 'Контакты',
-    certificates: 'Сертификаты',
+    about: 'О нас'
   }
 }

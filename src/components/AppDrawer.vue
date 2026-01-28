@@ -3,7 +3,7 @@
     side="right"
     v-model="isDrawerOpen"
     :width="200"
-    :breakpoint="599"
+    :breakpoint="1023"
     bordered
     overlay
     class="bg-grey-3"
